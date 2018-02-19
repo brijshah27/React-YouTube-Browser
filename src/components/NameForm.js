@@ -69,7 +69,7 @@ render() {
             </label>
                 <input type="submit" value={this.state.loading ? 'Loading...': 'Search'} />
             </form>
-            <Router>
+            
                     <div>
                             <Results
                             myapi_key = {API_KEY}
@@ -78,11 +78,13 @@ render() {
                             image = {this.state.channelImage}
                             ch_id = {this.state.channelId}
                             />
+                            <Router>
                             {this.state.channelId !== null &&
               <Route path="/playlists" component={Playlists}
                 />}
-                    </div>
-                    </Router>         
+                   
+                    </Router>     
+                    </div>    
         </div>
     );
 }
