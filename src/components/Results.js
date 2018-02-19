@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-//import NameForm from './NameForm.js';
+var ReactRouter = require('react-router-dom');
+var Router = ReactRouter.BrowserRouter;
+var Route = ReactRouter.Route;
+var Link = require('react-router-dom').Link;
 
 class Results extends Component{
   constructor(props){
@@ -11,6 +14,7 @@ class Results extends Component{
   render(){
     var name = this.props.name;
     var Channel = this.props.description;
+    var img = this.props.image;
     return(
       <div>
         {name &&
@@ -19,6 +23,15 @@ class Results extends Component{
         <p>
           Channel description: {this.props.description}
         </p>}
+        {img &&
+        <div>
+          <Link to = '/playlists'>
+            <img src = {this.props.image}
+                alt={'Avatar for ' + this.props.name}
+            />
+          </Link>
+          </div>
+        }
 
       </div>
     );
