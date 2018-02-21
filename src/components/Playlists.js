@@ -11,7 +11,7 @@ class playlist extends React.Component{
         super(props);
         this.state={
             id : '',
-            iframe :  null
+            iframe :  []
         }
       }
     componentDidMount() {
@@ -23,9 +23,13 @@ class playlist extends React.Component{
         axios.get('https:www.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails%2Cplayer&channelId='+playlist.channelID+'&maxResults=25&key='+API_KEY)
         .then( (response) =>{
           console.log("video id: "+response.data.items[0].player.embedHtml);
+          let res = []
+          for(let i=0; i<10;i++){
+            res.push(response.data.items[i].player.embedHtml)
+          }
           this.setState({
             id: playlist.channelID,
-            iframe: response.data.items[1].player.embedHtml
+            iframe: res
           });
         })
         .catch(function (error) {
@@ -36,11 +40,17 @@ class playlist extends React.Component{
       //var playlist = queryString.parse(this.props.location.search);
        // var id = this.state.id;
         //console.log(id);
+        let data = this.state.iframe
+        console.log("data is"+data)
         return(
           <div>
         <h1>playlist id is {this.state.id}</h1>
         <div>
-        {ReactHtmlParser(this.state.iframe)}
+          <ul>
+          {data.map(function(name, index){
+                    return <li type="1" key={ index }>{ReactHtmlParser(name)}</li>;
+                  })}
+            </ul>
         </div>
         </div>
         )
