@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 var ReactRouter = require('react-router-dom');
 var Router = ReactRouter.BrowserRouter;
-var Route = ReactRouter.Route;
+var queryString = require('query-string');
+//var Route = ReactRouter.Route;
 var Link = require('react-router-dom').Link;
 
 class Results extends Component{
@@ -15,6 +16,7 @@ class Results extends Component{
     var name = this.props.name;
     var Channel = this.props.description;
     var img = this.props.image;
+    var channelID = this.props.ch_id;
     return(
       <div>
         {name &&
@@ -25,7 +27,11 @@ class Results extends Component{
         </p>}
         {img &&
         <div>
-          <Link to = '/playlists'>
+          <Link 
+          to={{
+              pathname:'/playlists',
+              search: '?channelID=' + channelID 
+            }}>
             <img src = {this.props.image}
                 alt={'Avatar for ' + this.props.name}
             />

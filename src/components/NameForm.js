@@ -45,7 +45,7 @@ handleChange(event) {
       axios.get('https://www.googleapis.com/youtube/v3/search?part=snippet&q=='+this.state.value+'&type=channel&key='+API_KEY)
     .then( (response) =>{
       //console.log(response.data);
-      //console.log(response.data.items[0].snippet.description);
+      console.log(response.data.items[0].snippet.description);
       this.setState({
         loading: false,
         channelName: response.data.items[0].snippet.title,
@@ -77,13 +77,7 @@ render() {
                             description = {this.state.channelDescription}
                             image = {this.state.channelImage}
                             ch_id = {this.state.channelId}
-                            />
-                            <Router>
-                            {this.state.channelId !== null &&
-              <Route path="/playlists" component={Playlists}
-                />}
-                   
-                    </Router>     
+                            />   
                     </div>    
         </div>
     );
