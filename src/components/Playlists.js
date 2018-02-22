@@ -22,14 +22,16 @@ class playlist extends React.Component{
         console.log(playlist.channelID);
         axios.get('https:www.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails%2Cplayer&channelId='+playlist.channelID+'&maxResults=25&key='+API_KEY)
         .then( (response) =>{
-          console.log("video id: "+response.data.items[0].player.embedHtml);
+          console.log("req url: "+'https:www.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails%2Cplayer&channelId='+playlist.channelID+'&maxResults=25&key='+API_KEY);
+          console.log(response.data.items[0].snippet.channelTitle)
           let res = []
           for(let i=0; i<10;i++){
             res.push(response.data.items[i].player.embedHtml)
           }
           this.setState({
             id: playlist.channelID,
-            iframe: res
+            iframe: res,
+            title: response.data.items[0].snippet.channelTitle
           });
         })
         .catch(function (error) {
@@ -41,10 +43,10 @@ class playlist extends React.Component{
        // var id = this.state.id;
         //console.log(id);
         let data = this.state.iframe
-        console.log("data is"+data)
+        //console.log("data is"+data)
         return(
           <div>
-        <h1>playlist id is {this.state.id}</h1>
+        <h1>Playlist for: {this.state.title}</h1>
         <div>
           <ul>
           {data.map(function(name, index){

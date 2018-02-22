@@ -6,7 +6,6 @@ import Playlists from './Playlists.js';
 var ReactRouter = require('react-router-dom');
 var Router = ReactRouter.BrowserRouter;
 var Route = ReactRouter.Route;
-
 const API_KEY = config.API_KEY;
 
 class NameForm extends Component{
@@ -44,7 +43,6 @@ handleChange(event) {
       });
       axios.get('https://www.googleapis.com/youtube/v3/search?part=snippet&q=='+this.state.value+'&type=channel&key='+API_KEY)
     .then( (response) =>{
-      //console.log(response.data);
       console.log(response.data.items[0].snippet.description);
       this.setState({
         loading: false,
