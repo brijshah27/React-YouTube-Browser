@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 var ReactRouter = require('react-router-dom');
 var Router = ReactRouter.BrowserRouter;
 var queryString = require('query-string');
@@ -14,34 +17,41 @@ class Results extends Component{
   }
   render(){
     var name = this.props.name;
-    var Channel = this.props.description;
+    var description = this.props.description;
     var img = this.props.image;
     var channelID = this.props.ch_id;
     return(
       <div>
-        {name &&
-        <h1>You searched for: {this.props.name}</h1>}
-        {Channel &&
-        <p>
-          Channel description: {this.props.description}
-        </p>}
-        {img &&
-        <div>
-          <Link 
-          to={{
-              pathname:'/playlists',
-              search: '?channelID=' + channelID 
-            }}>
-            <img src = {this.props.image}
-                alt={'Avatar for ' + this.props.name}
-            />
-          </Link>
-          </div>
-        }
-
-      </div>
-    );
+      <MuiThemeProvider>
+      {name && <Card style={{
+            minWidth: '20em',
+            width:'50%',
+            margin: '0 auto',
+            border: '2px',
+            marginTop: '100px'
+        }}>
+          <CardHeader
+            title={name}
+            subtitle="YouTuber"
+            avatar={img}
+          />
+          <CardTitle title={name} subtitle="" />
+          <CardText>
+            {description}
+          </CardText>
+          <CardActions>
+              <Link to = {{
+                  pathname: '/Playlists',
+                  search: '?channelId='+ channelID
+                }}>
+                <RaisedButton label="Show Playlists"/>
+              </Link>
+          </CardActions>
+        </Card>}
+      </MuiThemeProvider>
+          </div>);
   }
+  
 
 }
 

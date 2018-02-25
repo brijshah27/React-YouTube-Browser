@@ -3,6 +3,11 @@ import axios from 'axios';
 import Results from './Results.js';
 import config from '../config.js';
 import Playlists from './Playlists.js';
+import TextField from 'material-ui/TextField';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import RaisedButton from 'material-ui/RaisedButton';
+import Paper from 'material-ui/Paper';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 var ReactRouter = require('react-router-dom');
 var Router = ReactRouter.BrowserRouter;
 var Route = ReactRouter.Route;
@@ -28,6 +33,8 @@ handleChange(event) {
     this.setState({
         channelName:'',
         channelDescription:'',
+        channelImage:'',
+        channelId:null,
         value: event.target.value});
     //console.log('inside handleChange: '+event.target.value)
   }
@@ -58,15 +65,42 @@ handleChange(event) {
 
 }
 render() {
+    var cardStyle={
+        maxWidth:'20em',
+        minWidth:'10em',
+        marginLeft:'auto',
+        marginRight:'auto',
+        minHeight: '6em'
+    };
+    var buttonStyle={
+        marginLeft:'100px',
+        display:'inline-block',
+    };
+    var header={
+        display: 'inline-block',
+          margin: 20,
+          backgroundColor:'#f44242',
+          textAlign: 'center',
+          padding:'20px'
+    }
     return(
         <div>
-            <form onSubmit={this.handleSubmit}>
-            <label>
-                Name:
-                <input type="text" value={this.state.value} onChange={this.handleChange} />
-            </label>
-                <input type="submit" value={this.state.loading ? 'Loading...': 'Search'} />
-            </form>
+        <MuiThemeProvider>
+              <div>
+                <Paper style={header} zDepth={2}>Youtube Browser</Paper>
+              <Card style={cardStyle}>
+              <TextField
+                hintText="Type a YouTuber's Name"
+                type = "text"
+                value={this.state.value}
+                onChange={this.handleChange}
+                /><br />
+                <RaisedButton primary={true} style={buttonStyle} label={this.state.loading ? 'Loading...': 'Search'}
+                  onClick = {this.handleSubmit}
+                  />
+                  </Card>
+              </div>
+            </MuiThemeProvider>
             
                     <div>
                             <Results

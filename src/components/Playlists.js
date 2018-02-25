@@ -3,6 +3,8 @@ import axios from 'axios';
 import config from '../config.js';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 import Iframe from 'react-iframe';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Paper from 'material-ui/Paper';
 var queryString = require('query-string');
 const API_KEY = config.API_KEY;
 
@@ -19,8 +21,8 @@ class playlist extends React.Component{
         this.setState({
           id: playlist.channelId
         });
-        console.log(playlist.channelID);
-        axios.get('https:www.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails%2Cplayer&channelId='+playlist.channelID+'&maxResults=25&key='+API_KEY)
+        console.log(playlist.channelId);
+        axios.get('https:www.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails%2Cplayer&channelId='+playlist.channelId+'&maxResults=25&key='+API_KEY)
         .then( (response) =>{
           console.log("req url: "+'https:www.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails%2Cplayer&channelId='+playlist.channelID+'&maxResults=25&key='+API_KEY);
           console.log(response.data.items[0].snippet.channelTitle)
@@ -43,17 +45,38 @@ class playlist extends React.Component{
        // var id = this.state.id;
         //console.log(id);
         let data = this.state.iframe
+        const style = {
+          margin: 20,
+          minWidth:'300px',
+          textAlign: 'center',
+          display: 'inline-block',
+        };
+        const header={
+          display: 'inline-block',
+          margin: 20,
+          textAlign: 'center',
+          padding:'20px'
+        }
         //console.log("data is"+data)
         return(
           <div>
-        <h1>Playlist for: {this.state.title}</h1>
+          <MuiThemeProvider>
+        <Paper style={header} zDepth={2}>Playlist for: <b>{this.state.title}</b></Paper>
         <div>
           <ul>
           {data.map(function(name, index){
-                    return <li type="1" key={ index }>{ReactHtmlParser(name)}</li>;
+                    return (
+                      <div>
+                      <Paper style={style} zDepth={5}>
+                      {ReactHtmlParser(name)}
+                      </Paper>
+                    </div>);
                   })}
+                  
             </ul>
+            
         </div>
+        </MuiThemeProvider>
         </div>
         )
     }
