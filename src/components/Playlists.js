@@ -7,28 +7,36 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 var queryString = require('query-string');
 const API_KEY = config.API_KEY;
+const getSrc = require('get-src');
 
 class playlist extends React.Component{
     constructor(props) {
-        super(props);
+      super(props);
+      var playlist = queryString.parse(this.props.location.search);
         this.state={
-            id : '',
-            iframe :  []
+          id: playlist.channelId,
+          iframe:[]
         }
+        // this.state={
+        //     id : '',
+        //     iframe :  []
+        // }
       }
     componentDidMount() {
         var playlist = queryString.parse(this.props.location.search);
-        this.setState({
-          id: playlist.channelId
-        });
+        
         console.log(playlist.channelId);
-        axios.get('https:www.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails%2Cplayer&channelId='+playlist.channelId+'&maxResults=25&key='+API_KEY)
+        var id = playlist.channelId;
+        axios.get('https://www.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails%2Cplayer&channelId='+this.state.id+'&maxResults=25&key='+API_KEY)
         .then( (response) =>{
-          console.log("req url: "+'https:www.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails%2Cplayer&channelId='+playlist.channelID+'&maxResults=25&key='+API_KEY);
+          console.log("req url: "+'https://www.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails%2Cplayer&channelId='+this.state.id+'&maxResults=25&key=');
           console.log(response.data.items[0].snippet.channelTitle)
           let res = []
           for(let i=0; i<10;i++){
-            res.push(response.data.items[i].player.embedHtml)
+            let oldSrc = (getSrc(response.data.items[i].player.embedHtml))
+            let newSrc = "https"+oldSrc.substring(4,oldSrc.length);
+            console.log("newSrc is>>>>>"+ newSrc)
+            res.push(newSrc)
           }
           this.setState({
             id: playlist.channelID,
@@ -61,20 +69,20 @@ class playlist extends React.Component{
         return(
           <div>
           <MuiThemeProvider>
-        <Paper style={header} zDepth={2}>Playlist for: <b>{this.state.title}</b></Paper>
+          {data=='' && <p>No Playlist!!</p>}
+        {data!='' && <Paper style={header} zDepth={2}>Playlist for: <b>{this.state.title}</b></Paper>}
         <div>
           <ul>
           {data.map(function(name, index){
                     return (
                       <div>
                       <Paper style={style} zDepth={5}>
-                      {ReactHtmlParser(name)}
+                      <iframe src={name} height="300px" width="600px"/>
                       </Paper>
                     </div>);
                   })}
                   
             </ul>
-            
         </div>
         </MuiThemeProvider>
         </div>
