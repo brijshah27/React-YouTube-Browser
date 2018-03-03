@@ -5,7 +5,10 @@ import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from
 import Iframe from 'react-iframe';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
+import IconButton from 'material-ui/IconButton';
+import ActionHome from 'material-ui/svg-icons/action/home';
 var queryString = require('query-string');
+var Link = require('react-router-dom').Link;
 const API_KEY = config.API_KEY;
 const getSrc = require('get-src');
 
@@ -53,6 +56,17 @@ class playlist extends React.Component{
        // var id = this.state.id;
         //console.log(id);
         let data = this.state.iframe
+        const icon = {
+          mediumIcon: {
+            width: 36,
+            height: 36,
+          },
+          medium: {
+            width: 72,
+            height: 72,
+            padding: 16,
+          },
+        }
         const style = {
           margin: 20,
           minWidth:'300px',
@@ -69,7 +83,16 @@ class playlist extends React.Component{
         return(
           <div>
           <MuiThemeProvider>
-          {data=='' && <p>No Playlist!!</p>}
+          <Link to={'./'}>
+          <IconButton
+          iconStyle={icon.mediumIcon}
+          style={icon.small}>
+          <ActionHome />
+          </IconButton>
+          </Link>
+          <br/>
+          <br/>
+          {data=='' && <Paper style={header} zDepth={2}><b>No Playlists found!!</b></Paper>}
         {data!='' && <Paper style={header} zDepth={2}>Playlist for: <b>{this.state.title}</b></Paper>}
         <div>
           <ul>
