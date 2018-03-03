@@ -1,6 +1,8 @@
 ## Youtube browser app
 
-### Search for channels and see their playlist using Youtube API.
+### Search for YouTube channels and see their playlist using YouTube API.
+
+[Live project demo](https://ytbrowser27.firebaseapp.com/)
 
 ### Steps to run:
 
